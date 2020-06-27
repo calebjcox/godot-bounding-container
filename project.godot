@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "MarginContainer",
+"class": "BoundingContainer",
+"language": "GDScript",
+"path": "res://BoundingContainer.gd"
+}, {
+"base": "TextureRect",
+"class": "ColorBlock",
+"language": "GDScript",
+"path": "res://tests/color_block.gd"
+} ]
 _global_script_class_icons={
-
+"BoundingContainer": "",
+"ColorBlock": ""
 }
 
 [application]
