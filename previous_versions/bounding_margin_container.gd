@@ -1,4 +1,4 @@
-class_name BoundingContainer
+class_name BoundingMarginContainer
 extends MarginContainer
 # A `Container` that will scale the contents once it hits a max size
 #
