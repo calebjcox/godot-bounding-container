@@ -12,9 +12,8 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-width_bounding_mode = 1
-height_bounding_mode = 0
 max_width = 500
+max_height = 400
 
 [node name="GridContainer" type="GridContainer" parent="."]
 margin_left = 25.0

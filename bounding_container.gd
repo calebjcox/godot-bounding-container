@@ -13,7 +13,15 @@ extends MarginContainer
 # https://github.com/cjc89/godot-bounding-container
 
 
+enum BoundingMode {
+	SCREEN,
+	SPECIFIED,
+	SCREEN_AND_SPECIFIED,
+	NONE,
+}
 
+export(BoundingMode) var width_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED
+export(BoundingMode) var height_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED
 export(int) var max_width = 0
 export(int) var max_height = 0
 
@@ -24,7 +32,7 @@ func _ready():
 	get_viewport().connect("size_changed", self, "scale")
 
 
-func scale():
+func scale() -> void:
 	var width: int
 	var height: int
 	var scaleX: float = 1
@@ -34,10 +42,35 @@ func scale():
 	width = max_width if max_width > 0 else get_viewport().size.x
 	height = max_height if max_height > 0 else get_viewport().size.y
 	
-	if get_rect().size.x > width:
-		scaleX = width / get_rect().size.x
-	if get_rect().size.y > height:
-		scaleY = height / get_rect().size.y
+	scaleX = getScaleX()
+	scaleY = getScaleY()
 	
 	scale = min(scaleX, scaleY)
 	rect_scale = Vector2(scale, scale)
+
+
+func getScaleX() -> float:
+	return _scaleFactor(width_bounding_mode, get_rect().size.x, max_width, get_viewport().size.x)
+
+
+func getScaleY() -> float:
+	return _scaleFactor(height_bounding_mode, get_rect().size.y, max_height, get_viewport().size.y)
+
+
+func _scaleFactor(mode: int, size, max_size, screen_size) -> float:
+	var scale: float = 1
+	
+	match mode:
+		BoundingMode.SCREEN:
+			if screen_size > 0:
+				scale = screen_size / size
+			
+		BoundingMode.SPECIFIED:
+			if max_size > 0:
+				scale = max_size / size
+			
+		BoundingMode.SCREEN_AND_SPECIFIED:
+			scale = _scaleFactor(BoundingMode.SCREEN, size, max_size, screen_size)
+			scale = min(scale, _scaleFactor(BoundingMode.SPECIFIED, size, max_size, screen_size))
+			
+	return min(scale, float(1))
