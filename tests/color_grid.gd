@@ -1,9 +1,17 @@
-extends BoundingContainer
+extends GridContainer
 
 
+export(int, 1, 20) var Columns = 10
+export(int, 1, 20) var Rows = 10
+export(int, 10, 1000, 10) var Block_Size = 100
 onready var ColorBlock = preload("color_block.tscn")
 
 
 func _ready():
-	for i in range($GridContainer.columns * $GridContainer.columns):
-		$GridContainer.add_child(ColorBlock.instance())
+	var block: ColorBlock
+	self.columns = Columns
+	for i in range(Columns * Rows):
+		block = ColorBlock.instance()
+		block.size = Block_Size
+		self.add_child(block)
+	print(get_rect().size)
