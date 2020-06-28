@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "MarginContainer",
 "class": "BoundingContainer",
 "language": "GDScript",
-"path": "res://BoundingContainer.gd"
+"path": "res://bounding_container.gd"
 }, {
 "base": "TextureRect",
 "class": "ColorBlock",

@@ -40,5 +40,4 @@ func scale():
 		scaleY = height / get_rect().size.y
 	
 	scale = min(scaleX, scaleY)
-	print("Scale: " + str(scale))
 	rect_scale = Vector2(scale, scale)
