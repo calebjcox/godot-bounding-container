@@ -22,18 +22,9 @@ margin_top = 25.0
 margin_right = 167.0
 margin_bottom = 49.0
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
-margin_right = 142.0
-columns = 10
-script = ExtResource( 1 )
-Columns = 5
-Rows = 5
-Block_Size = 200
-
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 4.0
 margin_right = 142.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 script = ExtResource( 3 )
 
 [node name="Vertical" type="Button" parent="VBoxContainer/HBoxContainer"]
@@ -50,5 +41,15 @@ margin_bottom = 20.0
 size_flags_stretch_ratio = 2.0
 text = "Horizontal"
 expand_icon = true
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 142.0
+margin_bottom = 24.0
+columns = 10
+script = ExtResource( 1 )
+Columns = 5
+Rows = 5
+Block_Size = 200
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Vertical" to="VBoxContainer/HBoxContainer" method="_on_Vertical_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Horizontal" to="VBoxContainer/HBoxContainer" method="_on_Horizontal_pressed"]
