@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://tests/color_grid.gd" type="Script" id=1]
 [ext_resource path="res://bounding_container.gd" type="Script" id=2]
+[ext_resource path="res://tests/buttons.gd" type="Script" id=3]
 
 [node name="BoundingContainer" type="MarginContainer"]
 custom_constants/margin_right = 25
@@ -12,16 +13,42 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-max_width = 500
-max_height = 400
+max_width = 600
+max_height = 500
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 25.0
 margin_top = 25.0
-margin_right = 25.0
-margin_bottom = 25.0
+margin_right = 167.0
+margin_bottom = 49.0
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+margin_right = 142.0
 columns = 10
 script = ExtResource( 1 )
 Columns = 5
 Rows = 5
 Block_Size = 200
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 4.0
+margin_right = 142.0
+margin_bottom = 24.0
+script = ExtResource( 3 )
+
+[node name="Vertical" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 20.0
+size_flags_stretch_ratio = 2.0
+text = "Vertical"
+expand_icon = true
+
+[node name="Horizontal" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 64.0
+margin_right = 142.0
+margin_bottom = 20.0
+size_flags_stretch_ratio = 2.0
+text = "Horizontal"
+expand_icon = true
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Vertical" to="VBoxContainer/HBoxContainer" method="_on_Vertical_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Horizontal" to="VBoxContainer/HBoxContainer" method="_on_Horizontal_pressed"]

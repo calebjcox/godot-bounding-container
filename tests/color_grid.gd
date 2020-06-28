@@ -14,4 +14,3 @@ func _ready():
 		block = ColorBlock.instance()
 		block.size = Block_Size
 		self.add_child(block)
-	print(get_rect().size)

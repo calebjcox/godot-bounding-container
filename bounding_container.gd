@@ -20,27 +20,27 @@ enum BoundingMode {
 	NONE,
 }
 
-export(BoundingMode) var width_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED
-export(BoundingMode) var height_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED
-export(int) var max_width = 0
-export(int) var max_height = 0
+export(BoundingMode) var width_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED setget _set_bounding_x
+export(BoundingMode) var height_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED setget _set_bounding_y
+export(int) var max_width = 0 setget _set_max_width
+export(int) var max_height = 0 setget _set_max_height
 
+var ready := false
 
 func _ready():
+	ready = true
 	connect("sort_children", self, "scale")
 	connect("resized", self, "scale")
 	get_viewport().connect("size_changed", self, "scale")
 
 
 func scale() -> void:
-	var width: int
-	var height: int
 	var scaleX: float = 1
 	var scaleY: float = 1
 	var scale: float
 	
-	width = max_width if max_width > 0 else get_viewport().size.x
-	height = max_height if max_height > 0 else get_viewport().size.y
+	if !ready:
+		return
 	
 	scaleX = getScaleX()
 	scaleY = getScaleY()
@@ -74,3 +74,33 @@ func _scaleFactor(mode: int, size, max_size, screen_size) -> float:
 			scale = min(scale, _scaleFactor(BoundingMode.SPECIFIED, size, max_size, screen_size))
 			
 	return min(scale, float(1))
+
+
+func _set_bounding_x(mode):
+	if mode == width_bounding_mode:
+		return
+	width_bounding_mode = mode
+	scale()
+
+
+func _set_bounding_y(mode):
+	if mode == height_bounding_mode:
+		return
+	height_bounding_mode = mode
+	scale()
+
+
+func _set_max_width(width):
+	if width == max_width:
+		return
+	max_width = width
+	if width_bounding_mode == BoundingMode.SPECIFIED or width_bounding_mode == BoundingMode.SCREEN_AND_SPECIFIED:
+		scale()
+
+
+func _set_max_height(height):
+	if height == max_height:
+		return
+	max_height = height
+	if height_bounding_mode == BoundingMode.SPECIFIED or height_bounding_mode == BoundingMode.SCREEN_AND_SPECIFIED:
+		scale()
