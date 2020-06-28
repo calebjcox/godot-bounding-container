@@ -6,10 +6,6 @@ extends Container
 # a lot of cases but not when you want to be able to limit the size the of the
 # container (e.g. when you want to keep the entire contents on the screen).
 #
-# This is simply a `BoundingContainer` node that extends the native 
-# `MarginContainer`. This allows you to set a margin and a max size. If no max 
-# size is provided, it will use the `viewport` size. 
-#
 # https://github.com/cjc89/godot-bounding-container
 
 
@@ -25,10 +21,8 @@ export(BoundingMode) var height_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIE
 export(int) var max_width = 0 setget _set_max_width
 export(int) var max_height = 0 setget _set_max_height
 
-var ready := false
 
 func _ready():
-	ready = true
 	connect("sort_children", self, "scale")
 	connect("resized", self, "scale")
 	get_viewport().connect("size_changed", self, "scale")
@@ -38,9 +32,6 @@ func scale() -> void:
 	var scaleX: float = 1
 	var scaleY: float = 1
 	var scale: float
-	
-	if !ready:
-		return
 	
 	scaleX = getScaleX()
 	scaleY = getScaleY()
@@ -80,14 +71,14 @@ func _set_bounding_x(mode):
 	if mode == width_bounding_mode:
 		return
 	width_bounding_mode = mode
-	scale()
+	queue_sort()
 
 
 func _set_bounding_y(mode):
 	if mode == height_bounding_mode:
 		return
 	height_bounding_mode = mode
-	scale()
+	queue_sort()
 
 
 func _set_max_width(width):
@@ -95,7 +86,7 @@ func _set_max_width(width):
 		return
 	max_width = width
 	if width_bounding_mode == BoundingMode.SPECIFIED or width_bounding_mode == BoundingMode.SCREEN_AND_SPECIFIED:
-		scale()
+		queue_sort()
 
 
 func _set_max_height(height):
@@ -103,4 +94,4 @@ func _set_max_height(height):
 		return
 	max_height = height
 	if height_bounding_mode == BoundingMode.SPECIFIED or height_bounding_mode == BoundingMode.SCREEN_AND_SPECIFIED:
-		scale()
+		queue_sort()
