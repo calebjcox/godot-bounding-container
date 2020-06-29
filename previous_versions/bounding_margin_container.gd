@@ -1,13 +1,14 @@
-class_name BoundingContainer
-extends Container
+class_name BoundingMarginContainer
+extends MarginContainer
 # A `Container` that will scale the contents once it hits a max size
 #
 # Godot's built in container classes grow with the contents. This works well for
 # a lot of cases but not when you want to be able to limit the size the of the
 # container (e.g. when you want to keep the entire contents on the screen).
 #
-# This scales down the content instead of resizing it because the built in 
-# resize code won't shrink content.
+# This is simply a `BoundingContainer` node that extends the native 
+# `MarginContainer`. This allows you to set a margin and a max size. If no max 
+# size is provided, it will use the `viewport` size. 
 #
 # https://github.com/cjc89/godot-bounding-container
 
@@ -26,13 +27,9 @@ export(int) var max_height = 0 setget _set_max_height
 
 
 func _ready():
-	get_viewport().connect("size_changed", self, "queue_sort")
-
-
-func _notification(what):
-	match what:
-		NOTIFICATION_SORT_CHILDREN, NOTIFICATION_RESIZED:
-			scale()
+	connect("sort_children", self, "scale")
+	connect("resized", self, "scale")
+	get_viewport().connect("size_changed", self, "scale")
 
 
 func scale() -> void:
