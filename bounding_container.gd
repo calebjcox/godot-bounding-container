@@ -6,6 +6,9 @@ extends Container
 # a lot of cases but not when you want to be able to limit the size the of the
 # container (e.g. when you want to keep the entire contents on the screen).
 #
+# This scales down the content instead of resizing it because the built in 
+# resize code won't shrink content.
+#
 # https://github.com/cjc89/godot-bounding-container
 
 
@@ -23,9 +26,13 @@ export(int) var max_height = 0 setget _set_max_height
 
 
 func _ready():
-	connect("sort_children", self, "scale")
-	connect("resized", self, "scale")
-	get_viewport().connect("size_changed", self, "scale")
+	get_viewport().connect("size_changed", self, "queue_sort")
+
+
+func _notification(what):
+	match what:
+		NOTIFICATION_SORT_CHILDREN, NOTIFICATION_RESIZED:
+			scale()
 
 
 func scale() -> void:
