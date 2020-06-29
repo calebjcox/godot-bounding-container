@@ -37,6 +37,7 @@ config/description="Godot's built in container classes grow with the contents. T
 
 This is simply a `BoundingContainer` node that extends the native `MarginContainer`. This allows you to set a margin and a max size. If no max size is provided, it will use the `viewport` size. 
 "
+run/main_scene="res://tests/capped.tscn"
 config/icon="res://icon.png"
 
 [debug]
