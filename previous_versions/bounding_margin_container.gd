@@ -14,10 +14,10 @@ extends MarginContainer
 
 
 enum BoundingMode {
+	NONE,
 	SCREEN,
 	SPECIFIED,
 	SCREEN_AND_SPECIFIED,
-	NONE,
 }
 
 export(BoundingMode) var width_bounding_mode = BoundingMode.SCREEN_AND_SPECIFIED setget _set_bounding_x

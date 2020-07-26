@@ -20,7 +20,7 @@ func _setHorizontalText():
 	
 func _nextMode(mode):
 	mode += 1
-	if mode > BoundingContainer.BoundingMode.NONE:
+	if mode > BoundingContainer.BoundingMode.SCREEN_AND_SPECIFIED:
 		mode = 0
 	return mode
 
