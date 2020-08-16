@@ -36,27 +36,44 @@ func _notification(what):
 
 
 func scale() -> void:
+	var rect: Rect2
 	var scaleX: float = 1
 	var scaleY: float = 1
 	var scale: float
 	
-	scaleX = getScaleX()
-	scaleY = getScaleY()
+	rect = getBoundedRect()
+	scaleX = getScaleX(rect)
+	scaleY = getScaleY(rect)
 	
 	scale = min(scaleX, scaleY)
 	rect_scale = Vector2(scale, scale)
 
 
-func getScaleX() -> float:
-	return _scaleFactor(width_bounding_mode, get_rect().size.x, max_width, get_viewport().size.x)
+func getScaleX(rect: Rect2) -> float:
+	return _scaleFactor(width_bounding_mode, rect.size.x, max_width, get_viewport().size.x)
 
 
-func getScaleY() -> float:
-	return _scaleFactor(height_bounding_mode, get_rect().size.y, max_height, get_viewport().size.y)
+func getScaleY(rect: Rect2) -> float:
+	return _scaleFactor(height_bounding_mode, rect.size.y, max_height, get_viewport().size.y)
 
 
+# Generates the appropriate rectangle to use for calculating the scale factor.
+# Depending on what the child elements are, `get_rect()` may return [0, 0, 0, 0]
+# even if the children have a size. This will loop through all of the children
+# and make sure the `Rect2` used for calculating the scale includes the child
+func getBoundedRect() -> Rect2:
+	var rect: Rect2 = get_rect()
+	for child in get_children():
+		rect = rect.merge(child.get_rect())
+	return rect
+
+
+# Calculates the scale factor for one dimension
 func _scaleFactor(mode: int, size, max_size, screen_size) -> float:
 	var scale: float = 1
+	
+	if size == 0:
+		return scale
 	
 	match mode:
 		BoundingMode.SCREEN:
@@ -70,7 +87,8 @@ func _scaleFactor(mode: int, size, max_size, screen_size) -> float:
 		BoundingMode.SCREEN_AND_SPECIFIED:
 			scale = _scaleFactor(BoundingMode.SCREEN, size, max_size, screen_size)
 			scale = min(scale, _scaleFactor(BoundingMode.SPECIFIED, size, max_size, screen_size))
-			
+	
+
 	return min(scale, float(1))
 
 
