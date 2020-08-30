@@ -4,37 +4,49 @@
 [ext_resource path="res://bounding_container.gd" type="Script" id=2]
 [ext_resource path="res://tests/buttons.gd" type="Script" id=3]
 
-[node name="BoundingContainer" type="MarginContainer"]
-custom_constants/margin_right = 25
-custom_constants/margin_top = 25
-custom_constants/margin_left = 25
-custom_constants/margin_bottom = 25
-script = ExtResource( 2 )
+[node name="VBoxContainerOuter" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LabelBefore" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 14.0
+text = "Before"
+
+[node name="BoundingContainer" type="Container" parent="."]
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 18.0
+script = ExtResource( 2 )
 max_width = 600
 max_height = 500
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="BoundingContainer"]
 margin_left = 25.0
 margin_top = 25.0
-margin_right = 167.0
+margin_right = 999.0
 margin_bottom = 49.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BoundingContainer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BoundingContainer/VBoxContainer"]
 margin_right = 142.0
 margin_bottom = 20.0
 script = ExtResource( 3 )
 
-[node name="Vertical" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Vertical" type="Button" parent="BoundingContainer/VBoxContainer/HBoxContainer"]
 margin_right = 60.0
 margin_bottom = 20.0
 size_flags_stretch_ratio = 2.0
 text = "Vertical"
 expand_icon = true
 
-[node name="Horizontal" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Horizontal" type="Button" parent="BoundingContainer/VBoxContainer/HBoxContainer"]
 margin_left = 64.0
 margin_right = 142.0
 margin_bottom = 20.0
@@ -42,7 +54,8 @@ size_flags_stretch_ratio = 2.0
 text = "Horizontal"
 expand_icon = true
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="BoundingContainer/VBoxContainer"]
+light_mask = 2
 margin_top = 24.0
 margin_right = 142.0
 margin_bottom = 24.0
@@ -51,5 +64,12 @@ script = ExtResource( 1 )
 Columns = 5
 Rows = 5
 Block_Size = 200
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Vertical" to="VBoxContainer/HBoxContainer" method="_on_Vertical_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Horizontal" to="VBoxContainer/HBoxContainer" method="_on_Horizontal_pressed"]
+
+[node name="LabelAfter" type="Label" parent="."]
+margin_top = 22.0
+margin_right = 1024.0
+margin_bottom = 36.0
+size_flags_vertical = 1
+text = "After"
+[connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Vertical" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Vertical_pressed"]
+[connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Horizontal" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Horizontal_pressed"]
