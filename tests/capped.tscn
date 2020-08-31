@@ -35,7 +35,7 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="BoundingContainer"]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BoundingContainer/VBoxContainer"]
-margin_right = 142.0
+margin_right = 262.0
 margin_bottom = 20.0
 script = ExtResource( 3 )
 
@@ -54,10 +54,25 @@ size_flags_stretch_ratio = 2.0
 text = "Horizontal"
 expand_icon = true
 
+[node name="Bigger" type="Button" parent="BoundingContainer/VBoxContainer/HBoxContainer"]
+margin_left = 146.0
+margin_right = 198.0
+margin_bottom = 20.0
+text = "Bigger"
+
+[node name="Smaller" type="Button" parent="BoundingContainer/VBoxContainer/HBoxContainer"]
+margin_left = 202.0
+margin_right = 262.0
+margin_bottom = 20.0
+text = "Smaller"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GridContainer" type="GridContainer" parent="BoundingContainer/VBoxContainer"]
 light_mask = 2
 margin_top = 24.0
-margin_right = 142.0
+margin_right = 262.0
 margin_bottom = 24.0
 columns = 10
 script = ExtResource( 1 )
@@ -73,3 +88,5 @@ size_flags_vertical = 1
 text = "After"
 [connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Vertical" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Vertical_pressed"]
 [connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Horizontal" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Horizontal_pressed"]
+[connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Bigger" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Bigger_pressed"]
+[connection signal="pressed" from="BoundingContainer/VBoxContainer/HBoxContainer/Smaller" to="BoundingContainer/VBoxContainer/HBoxContainer" method="_on_Smaller_pressed"]
