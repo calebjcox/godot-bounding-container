@@ -36,9 +36,17 @@ func _nextHorizontalMode():
 
 func _on_Vertical_pressed():
 	_nextVerticalMode()
-	bounding.max_height += 10
 
 
 func _on_Horizontal_pressed():
 	_nextHorizontalMode()
-	bounding.max_width += 10
+
+
+func _on_Bigger_pressed():
+	bounding.max_height += 50
+	bounding.max_width += 50
+
+
+func _on_Smaller_pressed():
+	bounding.max_height -= 50
+	bounding.max_width -= 50
